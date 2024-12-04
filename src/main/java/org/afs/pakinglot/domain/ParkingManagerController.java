@@ -1,8 +1,6 @@
 package org.afs.pakinglot.domain;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,4 +15,13 @@ public class ParkingManagerController {
     public List<ParkingLot> getAllParkingLots() {
         return parkingManager.getAllParkingLots();
     }
+
+    // Post /park
+    // request: String plateNumber, int strategy
+    // response: Ticket
+    @PostMapping("/park")
+    public Ticket park(@RequestParam String plateNumber, @RequestParam int strategy) {
+        return parkingManager.park(plateNumber, strategy);
+    }
+
 }

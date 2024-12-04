@@ -18,3 +18,12 @@ base on the above API, implement the getAllParkingLots() method in the ParkingMa
 
 prompt 5:
 now I have a get all parking lots API, I want to have a integration test for this API, please implement the test using MockMvc.
+
+prompt 6:
+// Post /park
+// request: String plateNumber, int strategy
+// response: Ticket
+base on the above API, implement the park() method in the ParkingManagerController class
+
+prompt 7:
+now I have a park API, I want to have a integration test for this API, please implement the test using MockMvc.
