@@ -36,3 +36,9 @@ base on the above API, implement the fetch() method in the ParkingManagerControl
 
 prompt 9:
 now I have a fetch API, I want to have a integration test for this API, please implement the test using MockMvc.
+
+prompt 10:
+License Plate Validation
+○ License plates must follow the format standard: two letters + four digits (e.g., “AB-1234”).
+○ The system must reject empty or invalid license plate entries.
+Implement a function to check the plate number and integrate into the park and the fetch function.

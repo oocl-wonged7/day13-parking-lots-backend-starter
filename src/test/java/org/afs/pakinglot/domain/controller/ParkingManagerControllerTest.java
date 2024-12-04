@@ -47,11 +47,11 @@ class ParkingManagerControllerTest {
     @Test
     void givenParkingManagerController_whenPark_thenReturnsTicket() throws Exception {
         mockMvc.perform(post("/parkingManager/park")
-                        .param("plateNumber", "ABC123")
+                        .param("plateNumber", "XY-5678")
                         .param("strategy", "1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.plateNumber").value("ABC123"))
+                .andExpect(jsonPath("$.plateNumber").value("XY-5678"))
                 .andExpect(jsonPath("$.parkingLot").exists())
                 .andExpect(jsonPath("$.position").exists());
     }
@@ -59,16 +59,16 @@ class ParkingManagerControllerTest {
     @Test
     void givenParkingManagerController_whenFetch_thenReturnsCar() throws Exception {
         mockMvc.perform(post("/parkingManager/park")
-                        .param("plateNumber", "ABC123")
+                        .param("plateNumber", "XY-5678")
                         .param("strategy", "1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         // Then, fetch the car
         mockMvc.perform(post("/parkingManager/fetch")
-                        .param("plateNumber", "ABC123")
+                        .param("plateNumber", "XY-5678")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.plateNumber").value("ABC123"));
+                .andExpect(jsonPath("$.plateNumber").value("XY-5678"));
     }
 }

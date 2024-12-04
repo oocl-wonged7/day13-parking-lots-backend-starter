@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 
@@ -31,9 +32,9 @@ class ParkingManagerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "ABC123, 1",
-            "DEF456, 2",
-            "GHI789, 3"
+            "AB-1234, 1",
+            "XY-5678, 2",
+            "XD-6789, 3"
     })
     void givenStrategy_whenParkCar_thenParksCar(String plateNumber, int strategy) {
         // When
@@ -46,7 +47,7 @@ class ParkingManagerTest {
     @Test
     void givenValidPlateNumber_whenFetchCar_thenReturnsCar() {
         // Given
-        String plateNumber = "JKL012";
+        String plateNumber = "AB-1234";
         parkingManager.park(plateNumber, 1);
 
         // When
@@ -59,9 +60,23 @@ class ParkingManagerTest {
     @Test
     void givenInvalidPlateNumber_whenFetchCar_thenThrowsException() {
         // Given
-        String plateNumber = "XYZ999";
+        String plateNumber = "AB-1234";
 
         // When & Then
         assertThrows(IllegalArgumentException.class, () -> parkingManager.fetch(plateNumber));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"AB-1234", "XY-5678"})
+    void givenValidPlateNumber_whenValidatePlateNumber_thenNoException(String plateNumber) {
+        // When & Then
+        parkingManager.validatePlateNumber(plateNumber);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"A-1234", "AB1234", "1234-AB", "AB-123", "ABC-1234", "", " "})
+    void givenInvalidPlateNumber_whenValidatePlateNumber_thenThrowsException(String plateNumber) {
+        // When & Then
+        assertThrows(IllegalArgumentException.class, () -> parkingManager.validatePlateNumber(plateNumber));
     }
 }
