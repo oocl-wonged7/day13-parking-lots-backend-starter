@@ -10,3 +10,11 @@ generate unit tests for the parking manager class with the given when then forma
 
 prompt 3:
 refactor the below 3 tests into 1 test with parameterizedTest
+
+prompt 4:
+// Get /allParkingLots
+// response: List<ParkingLot>
+base on the above API, implement the getAllParkingLots() method in the ParkingManagerController class
+
+prompt 5:
+now I have a get all parking lots API, I want to have a integration test for this API, please implement the test using MockMvc.
