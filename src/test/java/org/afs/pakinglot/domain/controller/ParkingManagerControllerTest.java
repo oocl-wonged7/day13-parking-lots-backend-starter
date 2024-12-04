@@ -71,4 +71,21 @@ class ParkingManagerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.plateNumber").value("XY-5678"));
     }
+
+    @Test
+    void givenInvalidPlateNumber_whenPark_thenReturnsBadRequest() throws Exception {
+        mockMvc.perform(post("/parkingManager/park")
+                        .param("plateNumber", "INVALID")
+                        .param("strategy", "1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void givenInvalidPlateNumber_whenFetch_thenReturnsBadRequest() throws Exception {
+        mockMvc.perform(post("/parkingManager/fetch")
+                        .param("plateNumber", "INVALID")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }

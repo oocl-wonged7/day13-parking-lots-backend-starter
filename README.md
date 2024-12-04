@@ -42,3 +42,9 @@ License Plate Validation
 ○ License plates must follow the format standard: two letters + four digits (e.g., “AB-1234”).
 ○ The system must reject empty or invalid license plate entries.
 Implement a function to check the plate number and integrate into the park and the fetch function.
+
+prompt 11:
+now, we have plate number validation, implement a unit test for it
+
+prompt 12:
+now, we have plate number validation, implement a integration test for it
