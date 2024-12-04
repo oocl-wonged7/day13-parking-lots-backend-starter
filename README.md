@@ -27,3 +27,12 @@ base on the above API, implement the park() method in the ParkingManagerControll
 
 prompt 7:
 now I have a park API, I want to have a integration test for this API, please implement the test using MockMvc.
+
+prompt 8:
+// Post /fetch
+// request: String plateNumber
+// response: Car
+base on the above API, implement the fetch() method in the ParkingManagerController class
+
+prompt 9:
+now I have a fetch API, I want to have a integration test for this API, please implement the test using MockMvc.

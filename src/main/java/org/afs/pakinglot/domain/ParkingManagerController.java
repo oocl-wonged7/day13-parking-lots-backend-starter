@@ -24,4 +24,11 @@ public class ParkingManagerController {
         return parkingManager.park(plateNumber, strategy);
     }
 
+    // Post /fetch
+    // request: String plateNumber
+    // response: Car
+    @PostMapping("/fetch")
+    public Car fetch(@RequestParam String plateNumber) {
+        return parkingManager.fetch(plateNumber);
+    }
 }

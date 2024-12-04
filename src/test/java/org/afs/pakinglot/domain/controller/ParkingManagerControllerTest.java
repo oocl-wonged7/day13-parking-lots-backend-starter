@@ -55,4 +55,20 @@ class ParkingManagerControllerTest {
                 .andExpect(jsonPath("$.parkingLot").exists())
                 .andExpect(jsonPath("$.position").exists());
     }
+
+    @Test
+    void givenParkingManagerController_whenFetch_thenReturnsCar() throws Exception {
+        mockMvc.perform(post("/parkingManager/park")
+                        .param("plateNumber", "ABC123")
+                        .param("strategy", "1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        // Then, fetch the car
+        mockMvc.perform(post("/parkingManager/fetch")
+                        .param("plateNumber", "ABC123")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.plateNumber").value("ABC123"));
+    }
 }
