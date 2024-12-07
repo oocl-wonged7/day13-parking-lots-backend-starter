@@ -1,7 +1,6 @@
 package org.afs.pakinglot.domain.controller;
 
 import org.afs.pakinglot.domain.ParkingManagerController;
-import org.afs.pakinglot.domain.dto.ParkRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,15 +59,15 @@ class ParkingManagerControllerTest {
     void givenParkingManagerController_whenFetch_thenReturnsCar() throws Exception {
         mockMvc.perform(post("/parkingManager/park")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"plateNumber\":\"XY-5678\",\"strategy\":\"STANDARD\"}"))
+                        .content("{\"plateNumber\":\"XY-8563\",\"strategy\":\"STANDARD\"}"))
                 .andExpect(status().isOk());
 
         // Then, fetch the car
         mockMvc.perform(post("/parkingManager/fetch")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"plateNumber\":\"XY-5678\"}"))
+                        .content("{\"plateNumber\":\"XY-8563\"}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.plateNumber").value("XY-5678"));
+                .andExpect(jsonPath("$.plateNumber").value("XY-8563"));
     }
 
     @Test

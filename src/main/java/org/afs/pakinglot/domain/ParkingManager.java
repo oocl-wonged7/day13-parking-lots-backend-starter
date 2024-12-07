@@ -37,15 +37,19 @@ public class ParkingManager {
 
     public Car fetch(String plateNumber) {
         validatePlateNumber(plateNumber);
-        for (ParkingLot parkingLot : parkingLots) {
-            for (Ticket ticket : parkingLot.getTickets()) {
-                if (ticket.plateNumber().equals(plateNumber)) {
+        return parkingLots.stream()
+                .flatMap(parkingLot -> parkingLot.getTickets().stream())
+                .filter(ticket -> ticket.plateNumber().equals(plateNumber))
+                .findFirst()
+                .map(ticket -> {
                     System.out.println("fetching car with plate number " + plateNumber);
-                    return parkingLot.fetch(ticket);
-                }
-            }
-        }
-        throw new IllegalArgumentException("Car with plate number " + plateNumber + " not found");
+                    return parkingLots.stream()
+                            .filter(parkingLot -> parkingLot.getTickets().contains(ticket))
+                            .findFirst()
+                            .orElseThrow(() -> new IllegalArgumentException("Car with plate number " + plateNumber + " not found"))
+                            .fetch(ticket);
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Car with plate number " + plateNumber + " not found"));
     }
 
     public void validatePlateNumber(String plateNumber) {
@@ -55,14 +59,9 @@ public class ParkingManager {
     }
 
     private boolean isCarAlreadyParked(String plateNumber) {
-        for (ParkingLot parkingLot : parkingLots) {
-            for (Ticket ticket : parkingLot.getTickets()) {
-                if (ticket.plateNumber().equals(plateNumber)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return parkingLots.stream()
+                .flatMap(parkingLot -> parkingLot.getTickets().stream())
+                .anyMatch(ticket -> ticket.plateNumber().equals(plateNumber));
     }
 
     private ParkingBoy getParkingBoyByStrategy(String strategy) {
