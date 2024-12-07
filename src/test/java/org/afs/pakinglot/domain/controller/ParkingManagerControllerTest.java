@@ -1,6 +1,7 @@
 package org.afs.pakinglot.domain.controller;
 
 import org.afs.pakinglot.domain.ParkingManagerController;
+import org.afs.pakinglot.domain.dto.ParkRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +48,8 @@ class ParkingManagerControllerTest {
     @Test
     void givenParkingManagerController_whenPark_thenReturnsTicket() throws Exception {
         mockMvc.perform(post("/parkingManager/park")
-                        .param("plateNumber", "XY-5678")
-                        .param("strategy", "1")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"plateNumber\":\"XY-5678\",\"strategy\":\"STANDARD\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.plateNumber").value("XY-5678"))
                 .andExpect(jsonPath("$.parkingLot").exists())
@@ -59,15 +59,14 @@ class ParkingManagerControllerTest {
     @Test
     void givenParkingManagerController_whenFetch_thenReturnsCar() throws Exception {
         mockMvc.perform(post("/parkingManager/park")
-                        .param("plateNumber", "XY-5678")
-                        .param("strategy", "1")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"plateNumber\":\"XY-5678\",\"strategy\":\"STANDARD\"}"))
                 .andExpect(status().isOk());
 
         // Then, fetch the car
         mockMvc.perform(post("/parkingManager/fetch")
-                        .param("plateNumber", "XY-5678")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"plateNumber\":\"XY-5678\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.plateNumber").value("XY-5678"));
     }
@@ -75,17 +74,16 @@ class ParkingManagerControllerTest {
     @Test
     void givenInvalidPlateNumber_whenPark_thenReturnsBadRequest() throws Exception {
         mockMvc.perform(post("/parkingManager/park")
-                        .param("plateNumber", "INVALID")
-                        .param("strategy", "1")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"plateNumber\":\"INVALID\",\"strategy\":\"STANDARD\"}"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void givenInvalidPlateNumber_whenFetch_thenReturnsBadRequest() throws Exception {
         mockMvc.perform(post("/parkingManager/fetch")
-                        .param("plateNumber", "INVALID")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"plateNumber\":\"INVALID\"}"))
                 .andExpect(status().isBadRequest());
     }
 }

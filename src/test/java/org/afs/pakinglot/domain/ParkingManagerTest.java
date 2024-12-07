@@ -32,11 +32,11 @@ class ParkingManagerTest {
 
     @ParameterizedTest
     @CsvSource({
-            "AB-1234, 1",
-            "XY-5678, 2",
-            "XD-6789, 3"
+            "AB-1234, STANDARD",
+            "XY-5678, SMART",
+            "XD-6789, SUPERSMART"
     })
-    void givenStrategy_whenParkCar_thenParksCar(String plateNumber, int strategy) {
+    void givenStrategy_whenParkCar_thenParksCar(String plateNumber, String strategy) {
         // When
         Ticket ticket = parkingManager.park(plateNumber, strategy);
 
@@ -48,7 +48,7 @@ class ParkingManagerTest {
     void givenValidPlateNumber_whenFetchCar_thenReturnsCar() {
         // Given
         String plateNumber = "AB-1234";
-        parkingManager.park(plateNumber, 1);
+        parkingManager.park(plateNumber, "STANDARD");
 
         // When
         Car car = parkingManager.fetch(plateNumber);

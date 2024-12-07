@@ -1,34 +1,32 @@
 package org.afs.pakinglot.domain;
 
+import org.afs.pakinglot.domain.dto.FetchRequest;
+import org.afs.pakinglot.domain.dto.ParkRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/parkingManager")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ParkingManagerController {
     private final ParkingManager parkingManager = new ParkingManager();
 
-    // Get /allParkingLots
-    // response: List<ParkingLot>
     @GetMapping("/allParkingLots")
     public List<ParkingLot> getAllParkingLots() {
+        System.out.println("GET /allParkingLots");
         return parkingManager.getAllParkingLots();
     }
 
-    // Post /park
-    // request: String plateNumber, int strategy
-    // response: Ticket
     @PostMapping("/park")
-    public Ticket park(@RequestParam String plateNumber, @RequestParam int strategy) {
-        return parkingManager.park(plateNumber, strategy);
+    public Ticket park(@RequestBody ParkRequest request) {
+        System.out.println("POST /park " + request.getPlateNumber() + " " + request.getStrategy());
+        return parkingManager.park(request.getPlateNumber(), request.getStrategy());
     }
 
-    // Post /fetch
-    // request: String plateNumber
-    // response: Car
     @PostMapping("/fetch")
-    public Car fetch(@RequestParam String plateNumber) {
-        return parkingManager.fetch(plateNumber);
+    public Car fetch(@RequestBody FetchRequest request) {
+        System.out.println("POST /fetch " + request.getPlateNumber());
+        return parkingManager.fetch(request.getPlateNumber());
     }
 }

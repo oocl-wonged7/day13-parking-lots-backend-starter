@@ -16,15 +16,15 @@ public class ParkingManager {
             new ParkingLot(3, "Office Tower Parking", 9)
     );
 
-    private final ParkingBoy sequentialParkingBoy = new ParkingBoy(parkingLots, new SequentiallyStrategy());
-    private final ParkingBoy maxAvailableParkingBoy = new ParkingBoy(parkingLots, new MaxAvailableStrategy());
-    private final ParkingBoy availableRateParkingBoy = new ParkingBoy(parkingLots, new AvailableRateStrategy());
+    private final ParkingBoy standardParkingBoy = new ParkingBoy(parkingLots, new SequentiallyStrategy());
+    private final ParkingBoy smartParkingBoy = new ParkingBoy(parkingLots, new MaxAvailableStrategy());
+    private final ParkingBoy superSmartParkingBoy = new ParkingBoy(parkingLots, new AvailableRateStrategy());
 
     public List<ParkingLot> getAllParkingLots() {
         return parkingLots;
     }
 
-    public Ticket park(String plateNumber, int strategy) {
+    public Ticket park(String plateNumber, String strategy) {
         validatePlateNumber(plateNumber);
         ParkingBoy parkingBoy = getParkingBoyByStrategy(strategy);
         Car car = new Car(plateNumber);
@@ -36,6 +36,7 @@ public class ParkingManager {
         for (ParkingLot parkingLot : parkingLots) {
             for (Ticket ticket : parkingLot.getTickets()) {
                 if (ticket.plateNumber().equals(plateNumber)) {
+                    System.out.println("fetching car with plate number " + plateNumber);
                     return parkingLot.fetch(ticket);
                 }
             }
@@ -49,16 +50,16 @@ public class ParkingManager {
         }
     }
 
-    private ParkingBoy getParkingBoyByStrategy(int strategyId) {
-        switch (strategyId) {
-            case 1:
-                return sequentialParkingBoy;
-            case 2:
-                return maxAvailableParkingBoy;
-            case 3:
-                return availableRateParkingBoy;
+    private ParkingBoy getParkingBoyByStrategy(String strategy) {
+        switch (strategy.toUpperCase()) {
+            case "STANDARD":
+                return standardParkingBoy;
+            case "SMART":
+                return smartParkingBoy;
+            case "SUPERSMART":
+                return superSmartParkingBoy;
             default:
-                throw new IllegalArgumentException("Invalid parking strategy ID");
+                throw new IllegalArgumentException("Invalid parking strategy: " + strategy);
         }
     }
 }
