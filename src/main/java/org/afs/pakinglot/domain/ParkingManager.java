@@ -1,5 +1,6 @@
 package org.afs.pakinglot.domain;
 
+import org.afs.pakinglot.domain.exception.CarAlreadyParkedException;
 import org.afs.pakinglot.domain.strategies.AvailableRateStrategy;
 import org.afs.pakinglot.domain.strategies.MaxAvailableStrategy;
 import org.afs.pakinglot.domain.strategies.SequentiallyStrategy;
@@ -26,6 +27,9 @@ public class ParkingManager {
 
     public Ticket park(String plateNumber, String strategy) {
         validatePlateNumber(plateNumber);
+        if (isCarAlreadyParked(plateNumber)) {
+            throw new CarAlreadyParkedException();
+        }
         ParkingBoy parkingBoy = getParkingBoyByStrategy(strategy);
         Car car = new Car(plateNumber);
         return parkingBoy.park(car);
@@ -48,6 +52,17 @@ public class ParkingManager {
         if (plateNumber == null || !LICENSE_PLATE_PATTERN.matcher(plateNumber).matches()) {
             throw new IllegalArgumentException("Invalid license plate number: " + plateNumber);
         }
+    }
+
+    private boolean isCarAlreadyParked(String plateNumber) {
+        for (ParkingLot parkingLot : parkingLots) {
+            for (Ticket ticket : parkingLot.getTickets()) {
+                if (ticket.plateNumber().equals(plateNumber)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private ParkingBoy getParkingBoyByStrategy(String strategy) {
