@@ -41,14 +41,11 @@ public class ParkingManager {
                 .flatMap(parkingLot -> parkingLot.getTickets().stream())
                 .filter(ticket -> ticket.plateNumber().equals(plateNumber))
                 .findFirst()
-                .map(ticket -> {
-                    System.out.println("fetching car with plate number " + plateNumber);
-                    return parkingLots.stream()
-                            .filter(parkingLot -> parkingLot.getTickets().contains(ticket))
-                            .findFirst()
-                            .orElseThrow(() -> new IllegalArgumentException("Car with plate number " + plateNumber + " not found"))
-                            .fetch(ticket);
-                })
+                .map(ticket -> parkingLots.stream()
+                        .filter(parkingLot -> parkingLot.getTickets().contains(ticket))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalArgumentException("Car with plate number " + plateNumber + " not found"))
+                        .fetch(ticket))
                 .orElseThrow(() -> new IllegalArgumentException("Car with plate number " + plateNumber + " not found"));
     }
 
